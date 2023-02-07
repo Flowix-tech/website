@@ -1,0 +1,35 @@
+name: Test
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Cache cypress
+        id: cache-cypress
+        uses: actions/cache@v3
+        with:
+          path: '~/.cache/Cypress'
+          key: ${{ runner.os }}-cache-cypress-${{ env.node-version }}
+      - name: Install deps
+        run: yarn
+      - name: Install cypress
+        if: steps.cache-cypress.outputs.cache-hit != 'true'
+        run: npx cypress install
+      - name: Run tests
+        run: yarn test:ci
