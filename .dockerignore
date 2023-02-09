@@ -1,0 +1,5 @@
+cypress/
+docker/
+.vscode/
+.idea/
+.github/
