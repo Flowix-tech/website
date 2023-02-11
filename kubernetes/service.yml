@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: flowix
+  name: flowix-website
+  labels:
+    app: flowix-website
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: flowix-website

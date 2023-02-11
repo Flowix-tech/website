@@ -1,0 +1,1 @@
+kubectl create secret -n flowix generic flowix-website-secret --from-literal=$(echo "APP_URL=$APP_URL}") --dry-run=client -o yaml > ./secret.yml

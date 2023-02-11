@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowix-website
+  labels:
+    app: flowix-website
+  namespace: flowix
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flowix-website
+  template:
+    metadata:
+      labels:
+        app: flowix-website
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: app
+          image: "$(APP_IMAGE)"
+          imagePullPolicy: "Always"
+          env:
+            - name: NODE_ENV
+              value: "PRODUCTION"

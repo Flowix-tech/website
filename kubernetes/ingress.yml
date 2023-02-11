@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: flowix
+  name: flowix-website
+  annotations:
+    kubernetes.io/ingress-class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: $(APP_URL)
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: flowix-website
+                port:
+                  number: 3000
+
+  tls:
+    - hosts:
+        - $(APP_URL)
+      secretName: certificate-flowix-website

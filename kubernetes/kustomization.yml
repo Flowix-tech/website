@@ -1,0 +1,37 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - config.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+
+configurations:
+  - transformer_config.yml
+
+vars:
+  - name: APP_IMAGE
+    objref:
+      kind: ConfigMap
+      name: flowix-website-config
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.APP_IMAGE
+  - name: APP_URL
+    objref:
+      kind: ConfigMap
+      name: flowix-website-config
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.APP_URL
+
+#vars:
+#  - name: APP_URL
+#    objref:
+#      kind: Secret
+#      name: flowix-website-secret
+#
+#  - name: REGISTRY_URL
+#    objref:
+#      kind: Secret
+#      name: flowix-website-secret

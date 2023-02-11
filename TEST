@@ -1,0 +1,78 @@
+apiVersion: v1
+data:
+  APP_IMAGE: registry.flowix.tech/flowix-website:latest
+  APP_URL: website.flowix.tech
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: flowix-website-config
+  namespace: flowix
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: flowix-website
+  name: flowix-website
+  namespace: flowix
+spec:
+  ports:
+  - port: 3000
+  selector:
+    app: flowix-website
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: flowix-website
+  name: trading
+  namespace: flowix
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: flowix-website
+  template:
+    metadata:
+      labels:
+        app: flowix-website
+    spec:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: PRODUCTION
+        image: $(APP_IMAGE)
+        imagePullPolicy: Always
+        name: app
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress-class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+  name: flowix-website
+  namespace: flowix
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: website.flowix.tech
+    http:
+      paths:
+      - backend:
+          service:
+            name: flowix-website
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - website.flowix.tech
+    secretName: certificate-flowix-website

@@ -33,3 +33,5 @@ jobs:
         run: npx cypress install
       - name: Run tests
         run: yarn test:ci
+      - name: Run build
+        run: yarn build
