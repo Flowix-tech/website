@@ -11,6 +11,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN rm tsconfig.json && mv tsconfig.build.json tsconfig.json
+RUN ls -la
 RUN yarn build
 
 
