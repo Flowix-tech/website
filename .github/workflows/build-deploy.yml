@@ -35,8 +35,8 @@ jobs:
         with:
           push: true
           context: .
-          file: docker/dockerfiles/gateway/Dockerfile
-          tags: ${{ secrets.REGISTRY_URL }}/website:latest
+          file: docker/Dockerfile
+          tags: ${{ secrets.REGISTRY_URL }}/flowix-website:latest
 
   deploy:
     runs-on: ubuntu-latest
