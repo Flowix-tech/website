@@ -24,7 +24,7 @@ jobs:
       - name: Login to Private Docker Registry
         uses: docker/login-action@v2
         with:
-          registry: registry.flowix.tech
+          registry: ${{ secrets.REGISTRY_URL }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build and push
