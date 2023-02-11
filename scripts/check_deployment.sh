@@ -10,7 +10,7 @@ if [ $? -eq 0 ]
 then
   command kubectl rollout restart -n flowix deployment/$APP_NAME
 else
-#  source ./scripts/generate_manifests.sh
+  source ./scripts/generate_manifests.sh
   command kubectl apply -k ./kubernetes/
 fi
 

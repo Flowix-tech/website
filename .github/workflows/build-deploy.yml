@@ -1,14 +1,11 @@
 name: Deploy
-#on:
-#  pull_request:
-#    branches:
-#      - main
-#    types:
-#      - closed
 on:
-  push:
+  pull_request:
     branches:
-      - "*"
+      - main
+    types:
+      - closed
+
 
 jobs:
   build:
