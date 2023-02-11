@@ -36,7 +36,7 @@ jobs:
           push: true
           context: .
           file: docker/Dockerfile
-          tags: ${{ secrets.REGISTRY_URL }}/flowix-website:latest
+          tags: ${{ secrets.IMAGE_TAG }}
 
   deploy:
     runs-on: ubuntu-latest
